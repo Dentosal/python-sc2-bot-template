@@ -7,7 +7,9 @@ from bot import MyBot
 
 def main():
     with open("botinfo.json") as f:
-        race = Race[json.load(f)["race"]]
+        info = json.load(f)
+
+    race = Race[info["race"]]
 
     run_game(maps.get("Abyssal Reef LE"), [
         Bot(race, MyBot()),

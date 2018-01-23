@@ -22,13 +22,13 @@ def main(is_master, map_name, races, portconfig):
         g = sc2.main._host_game(
             sc2.maps.get(map_name),
             player_config,
-            realtime=True,
+            realtime=False,
             portconfig=portconfig
         )
     else:
         g = sc2.main._join_game(
             player_config,
-            realtime=True,
+            realtime=False,
             portconfig=portconfig
         )
 
