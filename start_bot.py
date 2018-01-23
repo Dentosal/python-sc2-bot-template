@@ -23,12 +23,14 @@ def main(is_master, map_name, races, portconfig):
             sc2.maps.get(map_name),
             player_config,
             realtime=False,
+            save_replay_as="replay.SC2Replay",
             portconfig=portconfig
         )
     else:
         g = sc2.main._join_game(
             player_config,
             realtime=False,
+            save_replay_as="replay.SC2Replay",
             portconfig=portconfig
         )
 
