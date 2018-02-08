@@ -12,7 +12,7 @@ from sc2.player import Bot
 
 from bot import MyBot
 
-def main(is_master, map_name, races, portconfig):
+def main(is_master, map_name, races, portconfig, replay_folder):
     portconfig = sc2.portconfig.Portconfig.from_json(portconfig)
     i = 0 if is_master else 1
 
@@ -24,14 +24,14 @@ def main(is_master, map_name, races, portconfig):
             sc2.maps.get(map_name),
             player_config,
             realtime=False,
-            save_replay_as=f"replay_player{i}.SC2Replay",
+            save_replay_as=(Path(replay_folder) / f"replay_player{i}.SC2Replay"),
             portconfig=portconfig
         )
     else:
         g = sc2.main._join_game(
             player_config,
             realtime=False,
-            save_replay_as=f"replay_player{i}.SC2Replay",
+            save_replay_as=(Path(replay_folder) / f"replay_player{i}.SC2Replay"),
             portconfig=portconfig
         )
 
@@ -41,6 +41,7 @@ def main(is_master, map_name, races, portconfig):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('--master', action='store_true', help='this is the master (creates the game)')
+    parser.add_argument('--replay-folder', nargs=1, default='')
     parser.add_argument('map_name', type=str, help='name of the game map')
     parser.add_argument('races', type=str, help='player races as comma-separated list')
     parser.add_argument('portconfig', type=str, help='port configuration as json')
@@ -50,4 +51,4 @@ if __name__ == '__main__':
 
     assert all(r in ["Random", "Zerg", "Protoss", "Terran"] for r in races)
 
-    main(args.master, args.map_name, races, args.portconfig)
+    main(args.master, args.map_name, races, args.portconfig, replay_folder)
