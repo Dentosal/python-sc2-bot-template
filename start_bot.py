@@ -14,23 +14,24 @@ from bot import MyBot
 
 def main(is_master, map_name, races, portconfig):
     portconfig = sc2.portconfig.Portconfig.from_json(portconfig)
+    i = 0 if is_master else 1
 
     player_config = [Bot(Race[r], None) for r in races]
-    player_config[0 if is_master else 1].ai = MyBot()
+    player_config[i].ai = MyBot()
 
     if is_master:
         g = sc2.main._host_game(
             sc2.maps.get(map_name),
             player_config,
             realtime=False,
-            save_replay_as="replay.SC2Replay",
+            save_replay_as=f"replay_player{i}.SC2Replay",
             portconfig=portconfig
         )
     else:
         g = sc2.main._join_game(
             player_config,
             realtime=False,
-            save_replay_as="replay.SC2Replay",
+            save_replay_as=f"replay_player{i}.SC2Replay",
             portconfig=portconfig
         )
 
