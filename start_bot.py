@@ -11,7 +11,7 @@ from sc2.player import Bot
 
 from bot import MyBot
 
-def main(is_master, map_name, races, portconfig, replay_path, log_path):
+def main(is_master, map_name, races, portconfig, replay_path, log_path, step_time_limit=None):
     portconfig = sc2.portconfig.Portconfig.from_json(portconfig)
     i = 0 if is_master else 1
 
@@ -31,14 +31,16 @@ def main(is_master, map_name, races, portconfig, replay_path, log_path):
             player_config,
             realtime=False,
             save_replay_as=replay_path,
-            portconfig=portconfig
+            portconfig=portconfig,
+            step_time_limit=step_time_limit
         )
     else:
         g = sc2.main._join_game(
             player_config,
             realtime=False,
             save_replay_as=replay_path,
-            portconfig=portconfig
+            portconfig=portconfig,
+            step_time_limit=step_time_limit
         )
 
     result = asyncio.get_event_loop().run_until_complete(g)
@@ -49,6 +51,7 @@ if __name__ == '__main__':
     parser.add_argument('--master', action='store_true', help='this is the master (creates the game)')
     parser.add_argument('--replay-path', nargs=1, default='replay.SC2Replay')
     parser.add_argument('--log-path', nargs=1, default='-')
+    parser.add_argument('--step-time-limit', nargs=1, default=None)
     parser.add_argument('map_name', help='name of the game map')
     parser.add_argument('races', help='player races as comma-separated list')
     parser.add_argument('portconfig', help='port configuration as json')
@@ -61,5 +64,6 @@ if __name__ == '__main__':
     main(
         args.master, args.map_name, races, args.portconfig,
         args.replay_path[0],
-        args.log_path[0] if args.log_path[0] != "-" else None
+        args.log_path[0] if args.log_path[0] != "-" else None,
+        float(args.step_time_limit[0]) if args.step_time_limit else None
     )
