@@ -6,7 +6,7 @@ Used by [Dentosal/sc2-bot-match-runner](https://github.com/Dentosal/sc2-bot-matc
 
 You'll need Python 3.6 or newer.
 
-1. Change the name of your bot from `botinfo.json`
+1. Change the name and race of your bot from `botinfo.json`
 2. Install the SC2 Python API: `pip3 install --user --upgrade sc2`.
 3. Try it: `python3 run_locally.py`
 4. Start coding!
